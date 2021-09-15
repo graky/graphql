@@ -9,7 +9,7 @@
 # Логика с запросами
 
 Регистрация пользователя 
-
+"""
 mutation CreateUser{
   createUser(
     firstName: "Степан", 
@@ -22,8 +22,9 @@ mutation CreateUser{
       }
   }
 }
-
+"""
 Ответ: 
+"""
 {
   "data": {
     "createUser": {
@@ -34,8 +35,9 @@ mutation CreateUser{
     }
   }
 }
-
+"""
 Создание токена: 
+"""
 mutation TokenAuth{
   tokenAuth(
     username: "stapanchikrecruteshe", 
@@ -45,8 +47,9 @@ mutation TokenAuth{
    token
   }
 }
-
+"""
 Ответ:
+"""
 {
   "data": {
     "createUser": {
@@ -57,8 +60,9 @@ mutation TokenAuth{
     }
   }
 }
-
+"""
 Верификация токена: 
+"""
 mutation VerifyToken{
   verifyToken(token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InN0YXBhbmNoaWtyZWNydXQiLCJleHAiOjE2MzE3MjY1NTAsIm9yaWdJYXQiOjE2MzE3MjYyNTB9.Lnh3or2bKvmieQ2j0lvPjfVc4otYr0SdkXVTzHuTafA"
   )
@@ -66,6 +70,7 @@ mutation VerifyToken{
    payload
   }
 }
+"""
 Ответ:
 {
   "data": {
