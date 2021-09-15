@@ -9,7 +9,7 @@
 # Логика с запросами
 
 Регистрация пользователя 
-"""
+'''
 mutation CreateUser{
   createUser(
     firstName: "Степан", 
@@ -22,9 +22,9 @@ mutation CreateUser{
       }
   }
 }
-"""
+'''
 Ответ: 
-"""
+'''
 {
   "data": {
     "createUser": {
@@ -35,9 +35,9 @@ mutation CreateUser{
     }
   }
 }
-"""
+'''
 Создание токена: 
-"""
+'''
 mutation TokenAuth{
   tokenAuth(
     username: "stapanchikrecruteshe", 
@@ -47,9 +47,9 @@ mutation TokenAuth{
    token
   }
 }
-"""
+'''
 Ответ:
-"""
+'''
 {
   "data": {
     "createUser": {
@@ -60,9 +60,9 @@ mutation TokenAuth{
     }
   }
 }
-"""
+'''
 Верификация токена: 
-"""
+'''
 mutation VerifyToken{
   verifyToken(token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InN0YXBhbmNoaWtyZWNydXQiLCJleHAiOjE2MzE3MjY1NTAsIm9yaWdJYXQiOjE2MzE3MjYyNTB9.Lnh3or2bKvmieQ2j0lvPjfVc4otYr0SdkXVTzHuTafA"
   )
@@ -70,8 +70,9 @@ mutation VerifyToken{
    payload
   }
 }
-"""
+'''
 Ответ:
+'''
 {
   "data": {
     "verifyToken": {
@@ -83,16 +84,18 @@ mutation VerifyToken{
     }
   }
 }
-
+'''
 Пользователь может создать себе профиль работодателя: 
+'''
 mutation CreateEmployer{
   createEmployer
   {
    ok
   }
 }
-
+'''
 Ответ: 
+'''
 {
   "data": {
     "createEmployer": {
@@ -100,8 +103,9 @@ mutation CreateEmployer{
     }
   }
 }
-
+'''
 Пользователь может добавить вакансию для рекрутеров, указав название вакансии , требования к работнику, условия труда, обязанности, уровень оплаты рекрутера (один из 4), размер оплаты рекрутера:
+'''
 mutation CreateVacancy{
   createVacancy(
     vacancyName: "Водитель тягача",
@@ -115,7 +119,9 @@ mutation CreateVacancy{
    ok
   }
 }
+'''
 Ответ:
+'''
 {
   "data": {
     "createVacancy": {
@@ -123,15 +129,18 @@ mutation CreateVacancy{
     }
   }
 }
-
+'''
 Пользователь может создать профиль рекрутера:
+'''
 mutation CreateRecruiter{
   createEmployer
   {
    ok
   }
 }
+'''
 Ответ: 
+'''
 {
   "data": {
     "createEmployer": {
@@ -139,8 +148,9 @@ mutation CreateRecruiter{
     }
   }
 }
-
+'''
 Пользователь может просмотреть список активных вакансий (по дефолту, если у пользователя есть профиль рекрутера, показываются заявки его уровня, если указан определенный уровень рекрутера, фильтруется по нему, если ничего не указано и у пользователя нет профиля рекрутера, отображаются все заявки)
+'''
 query Vacancies{
   vacancies(payLevel: "LG"){
     id
@@ -161,7 +171,9 @@ query Vacancies{
     payLevel
   }
 }
+'''
 Ответ:
+'''
 {
   "data": {
     "vacancies": [
@@ -220,8 +232,9 @@ query Vacancies{
         "payLevel": "LG"
       }
     ]
-    
+''' 
 Пользователь может отправить предложенного кандидата на заявку:
+ '''
  mutation CreateCandidate{
   createCandidate(
     contact: "@grakky телеграм", 
@@ -232,7 +245,9 @@ query Vacancies{
     ok
   }
 }
+'''
 Ответ:
+'''
 {
   "data": {
     "createCandidate": {
@@ -240,8 +255,9 @@ query Vacancies{
     }
   }
 }
-
+'''
 Пользователь с профилем работодателя может запросить список кандидатов, предложенных рекрутерами по его заявкам:
+'''
 query Candidates{
   candidates{
     id
@@ -260,8 +276,9 @@ query Candidates{
     contact
   }
 }
-
+'''
 Ответ:
+'''
 {
   "data": {
     "candidates": [
@@ -300,7 +317,9 @@ query Candidates{
     ]
   }
 }
+'''
 Пользователь может одобрить заявку кандидата на предложенную им вакансию, тогда вакансия становится не активна, количество оплаченных работодателем вакансий увеличивает на 1, количество закрытых вакансий рекрутером увеличивается на 1. 
+'''
 mutation ProofExit{
   proofExit(candidateId: 3){
     ok
@@ -314,3 +333,4 @@ mutation ProofExit{
     }
   }
 }
+'''
