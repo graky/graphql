@@ -86,7 +86,7 @@ mutation VerifyToken{
 }
 ```
 Пользователь может создать себе профиль работодателя: 
-'''
+```
 mutation CreateEmployer{
   createEmployer
   {
