@@ -234,7 +234,7 @@ query Vacancies{
     ]
 ```
 Пользователь может отправить предложенного кандидата на заявку:
- '''
+```
  mutation CreateCandidate{
   createCandidate(
     contact: "@grakky телеграм", 
