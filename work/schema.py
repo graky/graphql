@@ -13,7 +13,7 @@ FIELDS = {
 def filter_pay_level(info, kwargs):
     user = info.context.user
     if kwargs.get("pay_level"):
-        return Vacancy.objects.filter(models.Q(pay_level=kwargs.get("pay_level") & models.Q(active=True)))
+        return Vacancy.objects.filter(models.Q(pay_level=kwargs.get("pay_level")) & models.Q(active=True))
     elif hasattr(user, "recruiter"):
         return Vacancy.objects.filter(models.Q(pay_level=user.recruiter.level) & models.Q(active=True))
     else:
@@ -61,7 +61,7 @@ class VacancyType(DjangoObjectType):
 class WorkQuery(ObjectType):
     recruiter = graphene.Field(RecruiterType, recruiter_id=graphene.Int())
     vacancies = graphene.List(VacancyType, FIELDS)
-    vacancy = graphene.Field(VacancyType, FIELDS, vacancy_id=graphene.Int())
+    vacancy = graphene.Field(VacancyType, vacancy_id=graphene.Int())
     employer = graphene.Field(EmployerType, employer_id=graphene.Int())
     users = graphene.List(UserType)
     candidate = graphene.Field(CandidateType, candidate_id=graphene.Int())

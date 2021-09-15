@@ -36,10 +36,13 @@ class CreateEmployer(graphene.Mutation):
 
     @classmethod
     def mutate(cls, root, info, **kwargs):
-        user = info.context.user
-        employer, created = Employer.objects.get_or_create(user=user)
-        if created:
-            return {"ok": True}
+        if type(info.context.user.id) == int:
+            user = info.context.user
+            employer, created = Employer.objects.get_or_create(user=user)
+            if created:
+                return {"ok": True}
+            else:
+                return {"ok": False}
         else:
             return {"ok": False}
 
@@ -49,10 +52,13 @@ class CreateRecruiter(graphene.Mutation):
 
     @classmethod
     def mutate(cls, root, info, **kwargs):
-        user = info.context.user
-        recruiter, created = Recruiter.objects.get_or_create(user=user)
-        if created:
-            return {"ok": True}
+        if type(info.context.user.id) == int:
+            user = info.context.user
+            recruiter, created = Recruiter.objects.get_or_create(user=user)
+            if created:
+                return {"ok": True}
+            else:
+                return {"ok": False}
         else:
             return {"ok": False}
 
