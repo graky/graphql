@@ -26,7 +26,12 @@ class CreateUser(graphene.Mutation):
         password = kwargs.get("password")
         first_name = kwargs.get("first_name")
         last_name = kwargs.get("last_name")
-        user = get_user_model()(username=username, last_name=last_name, first_name=first_name, password=password)
+        user = get_user_model()(
+            username=username,
+            last_name=last_name,
+            first_name=first_name,
+            password=password,
+        )
         user.save()
         return CreateUser(user=user)
 
@@ -73,6 +78,7 @@ class CreateVacancy(graphene.Mutation):
         recruiter_reward = graphene.Int(required=True)
 
     ok = graphene.Boolean()
+
     @classmethod
     def mutate(cls, root, info, **kwargs):
         user = info.context.user
@@ -106,6 +112,7 @@ class CreateCandidate(graphene.Mutation):
         contact = graphene.String(required=True)
 
     ok = graphene.Boolean()
+
     @classmethod
     def mutate(cls, root, info, **kwargs):
         user = info.context.user
@@ -132,6 +139,7 @@ class ProofExit(graphene.Mutation):
         candidate_id = graphene.Int()
 
     ok = graphene.Boolean()
+
     @classmethod
     def mutate(cls, root, info, **kwargs):
         user = info.context.user

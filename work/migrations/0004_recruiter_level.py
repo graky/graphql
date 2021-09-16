@@ -6,13 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('work', '0003_auto_20210915_1319'),
+        ("work", "0003_auto_20210915_1319"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='recruiter',
-            name='level',
-            field=models.CharField(choices=[('LG', 'LIGHT'), ('MD', 'MEDIUM'), ('HR', 'HARD'), ('PR', 'PRO')], default='LG', max_length=2),
+            model_name="recruiter",
+            name="level",
+            field=models.CharField(
+                choices=[
+                    ("LG", "LIGHT"),
+                    ("MD", "MEDIUM"),
+                    ("HR", "HARD"),
+                    ("PR", "PRO"),
+                ],
+                default="LG",
+                max_length=2,
+            ),
         ),
     ]

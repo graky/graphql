@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.contrib.auth.backends import BaseBackend
 from django.contrib.auth.hashers import check_password
 
+
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
     pass
@@ -20,7 +21,6 @@ class SettingsBackend(BaseBackend):
         user = User.objects.get(username=username)
         if user.password == password:
             return user
-
 
     def get_user(self, user_id):
         try:

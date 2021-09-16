@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('work', '0005_remove_recruiter_name'),
+        ("work", "0005_remove_recruiter_name"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='employer',
-            name='active_vacancies',
+            model_name="employer",
+            name="active_vacancies",
         ),
         migrations.AlterField(
-            model_name='candidate',
-            name='exit_proof',
+            model_name="candidate",
+            name="exit_proof",
             field=models.BooleanField(default=False),
         ),
     ]

@@ -6,17 +6,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('work', '0001_initial'),
+        ("work", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='vacancy',
-            name='salary',
+            model_name="vacancy",
+            name="salary",
         ),
         migrations.AlterField(
-            model_name='vacancy',
-            name='pay_level',
-            field=models.CharField(choices=[('LG', 'LIGHT'), ('MD', 'MEDIUM'), ('HR', 'HARD'), ('PR', 'PRO')], max_length=2),
+            model_name="vacancy",
+            name="pay_level",
+            field=models.CharField(
+                choices=[
+                    ("LG", "LIGHT"),
+                    ("MD", "MEDIUM"),
+                    ("HR", "HARD"),
+                    ("PR", "PRO"),
+                ],
+                max_length=2,
+            ),
         ),
     ]

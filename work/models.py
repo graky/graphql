@@ -19,12 +19,16 @@ class Employer(models.Model):
 
 class Recruiter(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    level = models.CharField(max_length=2, choices=[
-        ("LG", "LIGHT"),
-        ("MD", "MEDIUM"),
-        ("HR", "HARD"),
-        ("PR", "PRO"),
-    ], default="LG")
+    level = models.CharField(
+        max_length=2,
+        choices=[
+            ("LG", "LIGHT"),
+            ("MD", "MEDIUM"),
+            ("HR", "HARD"),
+            ("PR", "PRO"),
+        ],
+        default="LG",
+    )
     closed_vacancies = models.IntegerField(default=0)
 
     class Meta:
@@ -38,12 +42,15 @@ class Vacancy(models.Model):
     duties = models.CharField(max_length=255)
     requirements = models.CharField(max_length=255)
     conditions = models.CharField(max_length=255)
-    pay_level = models.CharField(max_length=2, choices=[
-        ("LG", "LIGHT"),
-        ("MD", "MEDIUM"),
-        ("HR", "HARD"),
-        ("PR", "PRO"),
-    ])
+    pay_level = models.CharField(
+        max_length=2,
+        choices=[
+            ("LG", "LIGHT"),
+            ("MD", "MEDIUM"),
+            ("HR", "HARD"),
+            ("PR", "PRO"),
+        ],
+    )
     creation_date = models.DateTimeField(default=timezone.now, editable=False)
     recruiter_reward = models.IntegerField()
     active = models.BooleanField(default=True)
