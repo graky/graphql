@@ -1,5 +1,4 @@
 import graphene
-from graphql_jwt.decorators import login_required
 from graphene_django import DjangoObjectType
 from django.contrib.auth import get_user_model
 from .models import Employer, Candidate, Vacancy, Recruiter
@@ -41,7 +40,7 @@ class CreateEmployer(graphene.Mutation):
 
     @classmethod
     def mutate(cls, root, info, **kwargs):
-        if type(info.context.user.id) == int:
+        if isinstance(info.context.user.id, int):
             user = info.context.user
             employer, created = Employer.objects.get_or_create(user=user)
             if created:
@@ -57,7 +56,7 @@ class CreateRecruiter(graphene.Mutation):
 
     @classmethod
     def mutate(cls, root, info, **kwargs):
-        if type(info.context.user.id) == int:
+        if isinstance(info.context.user.id, int):
             user = info.context.user
             recruiter, created = Recruiter.objects.get_or_create(user=user)
             if created:

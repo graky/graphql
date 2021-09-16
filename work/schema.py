@@ -1,7 +1,7 @@
 import graphene
 import graphql_jwt
 from django.db import models
-from graphene import ObjectType, String, Schema
+from graphene import ObjectType, Schema
 from graphene_django import DjangoObjectType
 from .models import Recruiter, Vacancy, Employer, Candidate, User
 from .mutations import (
@@ -13,20 +13,6 @@ from .mutations import (
     CreateCandidate,
     ProofExit,
 )
-
-
-def filter_pay_level(info, kwargs):
-    user = info.context.user
-    if kwargs.get("pay_level"):
-        return Vacancy.objects.filter(
-            models.Q(pay_level=kwargs.get("pay_level")) & models.Q(active=True)
-        )
-    elif hasattr(user, "recruiter"):
-        return Vacancy.objects.filter(
-            models.Q(pay_level=user.recruiter.level) & models.Q(active=True)
-        )
-    else:
-        return Vacancy.objects.filter(active=True)
 
 
 class CandidateType(DjangoObjectType):
@@ -65,6 +51,20 @@ class VacancyType(DjangoObjectType):
     def resolve_pay_level(root, info, **kwargs):
         return root.pay_level
 
+    @staticmethod
+    def filter_pay_level(info, kwargs):
+        user = info.context.user
+        if pay_level := kwargs.get("pay_level"):
+            return Vacancy.objects.filter(
+                models.Q(pay_level=pay_level) & models.Q(active=True)
+            )
+        elif hasattr(user, "recruiter"):
+            return Vacancy.objects.filter(
+                models.Q(pay_level=user.recruiter.level) & models.Q(active=True)
+            )
+        else:
+            return Vacancy.objects.filter(active=True)
+
 
 class WorkQuery(ObjectType):
     recruiter = graphene.Field(RecruiterType, recruiter_id=graphene.Int())
@@ -82,7 +82,7 @@ class WorkQuery(ObjectType):
         return Recruiter.objects.get(pk=recruiter__id)
 
     def resolve_vacancies(root, info, **kwargs):
-        return filter_pay_level(info, kwargs)
+        return VacancyType.filter_pay_level(info, kwargs)
 
     def resolve_vacancy(root, info, vacancy_id):
         return Vacancy.objects.get(pk=vacancy_id)
