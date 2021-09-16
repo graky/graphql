@@ -30,13 +30,19 @@ class EmployerType(DjangoObjectType):
     class Meta:
         model = Employer
         fields = "__all__"
+    full_name = graphene.String()
 
+    def resolve_full_name(root, info, **kwargs):
+        return "{0} {1}".format(root.user.last_name, root.user.first_name)
 
 class RecruiterType(DjangoObjectType):
     class Meta:
         model = Recruiter
         fields = "__all__"
+    full_name = graphene.String()
 
+    def resolve_full_name(root, info, **kwargs):
+        return "{0} {1}".format(root.user.last_name, root.user.first_name)
 
 class VacancyType(DjangoObjectType):
     class Meta:
