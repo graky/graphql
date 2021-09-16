@@ -5,9 +5,6 @@ from graphene import ObjectType, String, Schema
 from graphene_django import DjangoObjectType
 from .models import Recruiter, Vacancy, Employer, Candidate, User
 from .mutations import CreateUser, UserType, CreateEmployer, CreateRecruiter, CreateVacancy, CreateCandidate, ProofExit
-FIELDS = {
-    "pay_level": graphene.String()
-}
 
 
 def filter_pay_level(info, kwargs):
@@ -47,18 +44,7 @@ class RecruiterType(DjangoObjectType):
 class VacancyType(DjangoObjectType):
     class Meta:
         model = Vacancy
-        fields = (
-            "id",
-            "vacancy_name",
-            "duties",
-            "requirements",
-            "conditions",
-            "creation_date",
-            "recruiter_reward",
-            "active",
-            "creator",
-        )
-    pay_level = graphene.String()
+        fields = "__all__"
 
     def resolve_pay_level(root, info, **kwargs):
         return root.pay_level
