@@ -68,7 +68,7 @@ class VacancyType(DjangoObjectType):
 
 class WorkQuery(ObjectType):
     recruiter = graphene.Field(RecruiterType, recruiter_id=graphene.Int())
-    vacancies = graphene.List(VacancyType)
+    vacancies = graphene.List(VacancyType, pay_level=graphene.String())
     vacancy = graphene.Field(VacancyType, vacancy_id=graphene.Int())
     employer = graphene.Field(EmployerType, employer_id=graphene.Int())
     users = graphene.List(UserType)
@@ -78,8 +78,8 @@ class WorkQuery(ObjectType):
     def resolve_users(root, info, **kwargs):
         return User.objects.all()
 
-    def resolve_recruiter(root, info, recruiter__id):
-        return Recruiter.objects.get(pk=recruiter__id)
+    def resolve_recruiter(root, info, recruiter_id):
+        return Recruiter.objects.get(pk=recruiter_id)
 
     def resolve_vacancies(root, info, **kwargs):
         return VacancyType.filter_pay_level(info, kwargs)

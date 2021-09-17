@@ -12,6 +12,7 @@ class UserType(DjangoObjectType):
 
 class CreateUser(graphene.Mutation):
     user = graphene.Field(UserType)
+    failed = graphene.Boolean()
 
     class Arguments:
         username = graphene.String(required=True)
@@ -25,14 +26,16 @@ class CreateUser(graphene.Mutation):
         password = kwargs.get("password")
         first_name = kwargs.get("first_name")
         last_name = kwargs.get("last_name")
-        user = get_user_model()(
+        user, created = get_user_model().objects.get_or_create(
             username=username,
-            last_name=last_name,
-            first_name=first_name,
-            password=password,
+            defaults={
+                "password": password,
+                "first_name": first_name,
+                "last_name": last_name,
+            },
         )
-        user.save()
-        return CreateUser(user=user)
+        if created:
+            return CreateUser(user=user)
 
 
 class CreateEmployer(graphene.Mutation):
