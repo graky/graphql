@@ -6,6 +6,35 @@
 Рекрутер просматривает вакансии, отправляет в ответ на вакансию анкету подходящего кандидата, с именем кандидата, итогами интервью. 
 Работодатель просматривает поступившие анкеты кандидатов, подтверждает подходящего, вакансия закрывается. 
 
+
+## Разворачиваем проект локально
+Проект использует python версии 3.9
+ - Создаем виртуальное окружение
+   #####virtualenv --python=python3.9 venv
+ - Устанавливаем необходимые для работы проекта библиотеки из файла зависимостей
+   #####pip install -r requirements.txt
+ - Установить базу данных postgresql
+ - В директории easywork создать файл .env 
+ - Файл содержит данные необходимые для подключения к БД, имя БД, имя пользователя, пароль, хост, порт
+   
+```
+DATABASE_NAME= db_name
+DATABASE_USER= db_user
+DATABASE_PASSWORD= db_password
+DATABASE_HOST= localhost
+DATABASE_PORT = 5432
+```
+ - Для создания структур в БД, необходимо запустить миграции с помощью команды
+   #####python manage.py migrate
+ - Чтобы создать суперпользователя для использования админ панели выполняем команду:
+   #####python manage.py createsuperuser
+ - Чтобы запустить проект не локальном сервере выполняем команду:
+   #####python manage.py runserver
+ - По адресу http://127.0.0.1:8000/ находится интерактивный интерфейс запросов GraphiQL
+ - По адресу http://127.0.0.1:8000/admin входим в админ панель
+
+
+
 # Логика с запросами
 
 Регистрация пользователя 
@@ -52,11 +81,8 @@ mutation TokenAuth{
 ```
 {
   "data": {
-    "createUser": {
-      "user": {
-        "username": "stepchik",
-        "password": "udubat96"
-      }
+    "tokenAuth": {
+      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImVzZmEiLCJleHAiOjE2MzIxNDgyNzEsIm9yaWdJYXQiOjE2MzIxNDc5NzF9.tFf5Ig1sr1fovAv11yJZyPQg4pJM-WyVby-O6MfdnEc"
     }
   }
 }
@@ -64,7 +90,7 @@ mutation TokenAuth{
 Верификация токена: 
 ```
 mutation VerifyToken{
-  verifyToken(token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InN0YXBhbmNoaWtyZWNydXQiLCJleHAiOjE2MzE3MjY1NTAsIm9yaWdJYXQiOjE2MzE3MjYyNTB9.Lnh3or2bKvmieQ2j0lvPjfVc4otYr0SdkXVTzHuTafA"
+  verifyToken(token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImVzZmEiLCJleHAiOjE2MzIxNDgyNzEsIm9yaWdJYXQiOjE2MzIxNDc5NzF9.tFf5Ig1sr1fovAv11yJZyPQg4pJM-WyVby-O6MfdnEc"
   )
   {
    payload
@@ -91,6 +117,7 @@ mutation CreateEmployer{
   createEmployer
   {
    ok
+   message
   }
 }
 ```
@@ -99,7 +126,8 @@ mutation CreateEmployer{
 {
   "data": {
     "createEmployer": {
-      "ok": false
+      "ok": true
+      "message": null
     }
   }
 }
@@ -117,6 +145,7 @@ mutation CreateVacancy{
   )
   {
    ok
+   message
   }
 }
 ```
@@ -126,6 +155,7 @@ mutation CreateVacancy{
   "data": {
     "createVacancy": {
       "ok": true
+      "message": null
     }
   }
 }
@@ -136,6 +166,7 @@ mutation CreateRecruiter{
   createEmployer
   {
    ok
+   message
   }
 }
 ```
@@ -145,6 +176,7 @@ mutation CreateRecruiter{
   "data": {
     "createEmployer": {
       "ok": true
+      "message": null
     }
   }
 }
@@ -243,6 +275,7 @@ query Vacancies{
     vacancyId: 3)
   {
     ok
+    message
   }
 }
 ```
@@ -252,6 +285,7 @@ query Vacancies{
   "data": {
     "createCandidate": {
       "ok": true
+      "message": null
     }
   }
 }
@@ -323,6 +357,7 @@ query Candidates{
 mutation ProofExit{
   proofExit(candidateId: 3){
     ok
+    message
   }
 }
 Ответ: 
@@ -330,6 +365,7 @@ mutation ProofExit{
   "data": {
     "proofExit": {
       "ok": true
+      "message": null
     }
   }
 }
