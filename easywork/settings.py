@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "graphene_django",
     "rest_framework",
     "django_crontab",
+    "django_filters",
 ]
 
 GRAPHENE = {

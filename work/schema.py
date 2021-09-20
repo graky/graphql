@@ -1,7 +1,8 @@
 import graphene
 from django.db import models
-from graphene import ObjectType, Schema
+from graphene import ObjectType, relay
 from graphene_django import DjangoObjectType
+from graphene_django.filter import DjangoFilterConnectionField
 from .models import Recruiter, Vacancy, Employer, Candidate, User
 from .mutations import UserType
 
@@ -37,30 +38,20 @@ class RecruiterType(DjangoObjectType):
 class VacancyType(DjangoObjectType):
     class Meta:
         model = Vacancy
-        fields = "__all__"
-
-    def resolve_pay_level(root, info, **kwargs):
-        return root.pay_level
-
-    @staticmethod
-    def filter_pay_level(info, kwargs):
-        user = info.context.user
-        if pay_level := kwargs.get("pay_level"):
-            return Vacancy.objects.filter(
-                models.Q(pay_level=pay_level) & models.Q(active=True)
-            )
-        elif hasattr(user, "recruiter"):
-            return Vacancy.objects.filter(
-                models.Q(pay_level=user.recruiter.level) & models.Q(active=True)
-            )
-        else:
-            return Vacancy.objects.filter(active=True)
+        filter_fields = {
+            "vacancy_name": ["exact", "icontains", "istartswith"],
+            "duties": ["exact", "icontains", "istartswith"],
+            "requirements": ["exact", "icontains", "istartswith"],
+            "pay_level": ["exact"],
+            "active": ["exact"],
+        }
+        interfaces = (relay.Node,)
 
 
 class WorkQuery(ObjectType):
     recruiter = graphene.Field(RecruiterType, recruiter_id=graphene.Int())
-    vacancies = graphene.List(VacancyType, pay_level=graphene.String())
-    vacancy = graphene.Field(VacancyType, vacancy_id=graphene.Int())
+    vacancies = DjangoFilterConnectionField(VacancyType)
+    vacancy = relay.Node.Field(VacancyType)
     employer = graphene.Field(EmployerType, employer_id=graphene.Int())
     users = graphene.List(UserType)
     candidate = graphene.Field(CandidateType, candidate_id=graphene.Int())
@@ -71,12 +62,6 @@ class WorkQuery(ObjectType):
 
     def resolve_recruiter(root, info, recruiter_id):
         return Recruiter.objects.get(pk=recruiter_id)
-
-    def resolve_vacancies(root, info, **kwargs):
-        return VacancyType.filter_pay_level(info, kwargs)
-
-    def resolve_vacancy(root, info, vacancy_id):
-        return Vacancy.objects.get(pk=vacancy_id)
 
     def resolve_employer(root, info, employer_id):
         return Employer.objects.get(pk=employer_id)
