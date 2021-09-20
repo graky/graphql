@@ -1,18 +1,9 @@
 import graphene
-import graphql_jwt
 from django.db import models
 from graphene import ObjectType, Schema
 from graphene_django import DjangoObjectType
 from .models import Recruiter, Vacancy, Employer, Candidate, User
-from .mutations import (
-    CreateUser,
-    UserType,
-    CreateEmployer,
-    CreateRecruiter,
-    CreateVacancy,
-    CreateCandidate,
-    ProofExit,
-)
+from .mutations import UserType
 
 
 class CandidateType(DjangoObjectType):
@@ -103,18 +94,3 @@ class WorkQuery(ObjectType):
             return candidates
         else:
             return []
-
-
-class Mutation(graphene.ObjectType):
-    create_user = CreateUser.Field()
-    token_auth = graphql_jwt.ObtainJSONWebToken.Field()
-    verify_token = graphql_jwt.Verify.Field()
-    refresh_token = graphql_jwt.Refresh.Field()
-    create_recruiter = CreateRecruiter.Field()
-    create_employer = CreateEmployer.Field()
-    create_vacancy = CreateVacancy.Field()
-    create_candidate = CreateCandidate.Field()
-    proof_exit = ProofExit.Field()
-
-
-schema = Schema(query=WorkQuery, mutation=Mutation)

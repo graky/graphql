@@ -40,6 +40,7 @@ class CreateUser(graphene.Mutation):
 
 class CreateEmployer(graphene.Mutation):
     ok = graphene.Boolean()
+    message = graphene.String()
 
     @classmethod
     def mutate(cls, root, info, **kwargs):
@@ -49,13 +50,14 @@ class CreateEmployer(graphene.Mutation):
             if created:
                 return {"ok": True}
             else:
-                return {"ok": False}
+                return {"ok": False, "message": "Employer already exists"}
         else:
-            return {"ok": False}
+            return {"ok": False, "message": "User not signed in"}
 
 
 class CreateRecruiter(graphene.Mutation):
     ok = graphene.Boolean()
+    message = graphene.String()
 
     @classmethod
     def mutate(cls, root, info, **kwargs):
@@ -65,9 +67,9 @@ class CreateRecruiter(graphene.Mutation):
             if created:
                 return {"ok": True}
             else:
-                return {"ok": False}
+                return {"ok": False, "message": "Recruiter already exists"}
         else:
-            return {"ok": False}
+            return {"ok": False, "message": "User not signed in"}
 
 
 class CreateVacancy(graphene.Mutation):
@@ -80,6 +82,7 @@ class CreateVacancy(graphene.Mutation):
         recruiter_reward = graphene.Int(required=True)
 
     ok = graphene.Boolean()
+    message = graphene.String()
 
     @classmethod
     def mutate(cls, root, info, **kwargs):
@@ -103,7 +106,7 @@ class CreateVacancy(graphene.Mutation):
             )
             return {"ok": True}
         else:
-            return {"ok": False}
+            return {"ok": False, "message": "User has no Employer profile"}
 
 
 class CreateCandidate(graphene.Mutation):
@@ -114,6 +117,7 @@ class CreateCandidate(graphene.Mutation):
         contact = graphene.String(required=True)
 
     ok = graphene.Boolean()
+    message = graphene.String()
 
     @classmethod
     def mutate(cls, root, info, **kwargs):
@@ -133,7 +137,7 @@ class CreateCandidate(graphene.Mutation):
             )
             return {"ok": True}
         else:
-            return {"ok": False}
+            return {"ok": False, "message": "User has no Recruiter profile"}
 
 
 class ProofExit(graphene.Mutation):
@@ -141,6 +145,7 @@ class ProofExit(graphene.Mutation):
         candidate_id = graphene.Int()
 
     ok = graphene.Boolean()
+    message = graphene.String()
 
     @classmethod
     def mutate(cls, root, info, **kwargs):
@@ -150,12 +155,18 @@ class ProofExit(graphene.Mutation):
             candidate = Candidate.objects.get(pk=kwargs.get("candidate_id"))
             vacancy = candidate.vacancy
             recruiter = candidate.recruiter
-            employer.payed_vacancies += 1
-            employer.save()
-            vacancy.active = False
-            vacancy.save()
-            recruiter.closed_vacancies += 1
-            recruiter.save()
-            return {"ok": True}
+            if vacancy.creator == employer:
+                employer.payed_vacancies += 1
+                employer.save()
+                vacancy.active = False
+                vacancy.save()
+                recruiter.closed_vacancies += 1
+                recruiter.save()
+                return {"ok": True}
+            else:
+                return {
+                    "ok": False,
+                    "message": "Vacancy doesn't belong to this Employer",
+                }
         else:
-            return {"ok": False}
+            return {"ok": False, "message": "User has no Employer profile"}

@@ -38,7 +38,7 @@ class TestQuery(JSONWebTokenTestCase):
             pay_level="PR",
             recruiter_reward=1000,
         )
-        self.recruiter = Recruiter.objects.create(user=self.use3)
+        self.recruiter = Recruiter.objects.create(user=self.user3)
         self.candidate = Candidate.objects.create(
             recruiter=self.recruiter,
             vacancy=self.vacancy,

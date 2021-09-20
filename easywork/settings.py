@@ -44,7 +44,7 @@ INSTALLED_APPS = [
 ]
 
 GRAPHENE = {
-    "SCHEMA": "work.schema.schema",
+    "SCHEMA": "easywork.schema.schema",
     "MIDDLEWARE": [
         "graphql_jwt.middleware.JSONWebTokenMiddleware",
     ],
@@ -60,7 +60,7 @@ MIDDLEWARE = [
 ]
 AUTHENTICATION_BACKENDS = [
     "graphql_jwt.backends.JSONWebTokenBackend",
-    "work.admin.SettingsBackend",
+    "easywork.admin.SettingsBackend",
 ]
 ROOT_URLCONF = "easywork.urls"
 

@@ -1,38 +1,10 @@
 pre-commit
-# основной пакет https://pre-commit.com/
-
 autoflake
-# для удаления неиспользуемых импортов (в нашем случае)
 black
-# форматируем код
-pyupgrade
-# приводим его к последней версии
 reorder-python-imports
-# делаем красивые импорты
-yesqa
-# удаляем неиспользуемые noqa комментарии (для линтеров)
-
-# линтеры
 flake8
-flake8-annotations
-flake8-annotations-coverage
-flake8-bandit
-flake8-broken-line
-flake8-bugbear
-flake8-builtins
-flake8-commas
-flake8-comprehensions
-flake8-debugger
-flake8-eradicate
-flake8-executable
-flake8-future-import
-flake8-pyi
-flake8-pytest
-flake8-pytest-style
-flake8-mutable
-flake8-string-format
-flake8-unused-arguments
+Django
+graphene
+graphene-django
+psycopg2
 
-# тесты
-pytest
-pytest-django

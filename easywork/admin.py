@@ -11,12 +11,6 @@ class CustomUserAdmin(UserAdmin):
 
 
 class SettingsBackend(BaseBackend):
-    """Данная реализация решает вопрос jwt токена."""
-
-    """Переопределяем метод. Описываем авторизацию."""
-    """Отсееваем юзеров с мобилы, у мобильных узеров пароля нет"""
-    """В случае каких то исключений или применения сплоитов при авторизации отсееваем """
-
     def authenticate(self, request, username=None, password=None, **kwargs):
         user = User.objects.get(username=username)
         if user.password == password:
