@@ -257,6 +257,48 @@ query {
       ]
     }
 ```
+
+Пользователь по id ноды может запросить вакансию
+```
+query Vacancy {
+  vacancy(id: "VmFjYW5jeVR5cGU6Mw==") {
+    id
+    vacancyName
+    duties
+    requirements
+    conditions
+    payLevel
+    creationDate
+    recruiterReward
+    active
+    creator {
+      fullName
+    }
+  }
+}
+```
+Ответ:
+```
+{
+  "data": {
+    "vacancy": {
+      "id": "VmFjYW5jeVR5cGU6Mw==",
+      "vacancyName": "Водитель грузовика",
+      "duties": "обязанности определенные",
+      "requirements": "test requirements",
+      "conditions": "условия особые",
+      "payLevel": "LG",
+      "creationDate": "2021-09-21T18:25:57.378681+00:00",
+      "recruiterReward": 500,
+      "active": true,
+      "creator": {
+        "fullName": "Роман Кириленко"
+      }
+    }
+  }
+}
+```
+
 Пользователь может отправить предложенного кандидата на заявку:
 ```
  mutation CreateCandidate{
@@ -352,13 +394,61 @@ mutation ProofExit{
     message
   }
 }
-Ответ: 
+```
+Ответ:
+```
 {
   "data": {
     "proofExit": {
       "ok": true
       "message": null
     }
+  }
+}
+```
+
+Доступен запрос для поиска по работодателям и рекрутерам, ищет пользователей с входящими данными в фамилии или имени 
+```
+query {
+  search(searchText: "Кирил") {
+    ... on EmployerType {
+      id
+      fullName
+      user{
+        id
+      }
+    }
+    ... on RecruiterType {
+      id
+      fullName
+      user{
+        id
+      }
+    }
+  }
+}
+
+```
+Ответ: 
+```
+{
+  "data": {
+    "search": [
+      {
+        "id": "1",
+        "fullName": "Роман Кириленко",
+        "user": {
+          "id": "1"
+        }
+      },
+      {
+        "id": "1",
+        "fullName": "Кирилл Медведев",
+        "user": {
+          "id": "2"
+        }
+      }
+    ]
   }
 }
 ```
