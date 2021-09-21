@@ -10,9 +10,9 @@
 ## Разворачиваем проект локально
 Проект использует python версии 3.9
  - Создаем виртуальное окружение
-   #####virtualenv --python=python3.9 venv
+   ##### virtualenv --python=python3.9 venv
  - Устанавливаем необходимые для работы проекта библиотеки из файла зависимостей
-   #####pip install -r requirements.txt
+   ##### pip install -r requirements.txt
  - Установить базу данных postgresql
  - В директории easywork создать файл .env 
  - Файл содержит данные необходимые для подключения к БД, имя БД, имя пользователя, пароль, хост, порт
@@ -25,11 +25,11 @@ DATABASE_HOST= localhost
 DATABASE_PORT = 5432
 ```
  - Для создания структур в БД, необходимо запустить миграции с помощью команды
-   #####python manage.py migrate
+   ##### python manage.py migrate
  - Чтобы создать суперпользователя для использования админ панели выполняем команду:
-   #####python manage.py createsuperuser
+   ##### python manage.py createsuperuser
  - Чтобы запустить проект не локальном сервере выполняем команду:
-   #####python manage.py runserver
+   ##### python manage.py runserver
  - По адресу http://127.0.0.1:8000/ находится интерактивный интерфейс запросов GraphiQL
  - По адресу http://127.0.0.1:8000/admin входим в админ панель
 

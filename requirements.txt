@@ -19,3 +19,4 @@ django-nested-admin
 django-crontab
 django-graphql-jwt
 python-dotenv
+django-filter

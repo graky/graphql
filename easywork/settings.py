@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "work.apps.WorkConfig",
+    "users.apps.UserConfig",
+    "candidates.apps.CandidateConfig",
+    "vacancies.apps.VacancyConfig",
     "graphene_django",
     "rest_framework",
     "django_crontab",
@@ -102,7 +104,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = "work.User"
+AUTH_USER_MODEL = "users.User"
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

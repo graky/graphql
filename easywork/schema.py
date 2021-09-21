@@ -1,17 +1,18 @@
 import graphql_jwt
 from graphene import ObjectType, Schema
-from work.mutations import (
+from users.mutations import (
     CreateUser,
     CreateEmployer,
     CreateRecruiter,
-    CreateVacancy,
-    CreateCandidate,
-    ProofExit,
 )
-from work.schema import WorkQuery
+from candidates.mutations import CreateCandidate
+from vacancies.mutations import CreateVacancy, ProofExit
+from users.schema import UserQuery
+from candidates.schema import CandidateQuery
+from vacancies.schema import VacancyQuery
 
 
-class Query(WorkQuery, ObjectType):
+class Query(UserQuery, CandidateQuery, VacancyQuery, ObjectType):
     ...
 
 

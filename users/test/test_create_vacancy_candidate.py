@@ -1,7 +1,7 @@
 from graphql_jwt.testcases import JSONWebTokenTestCase
 from django.contrib.auth import get_user_model
 from graphql_jwt.shortcuts import get_token
-from work.models import Employer, Recruiter, Vacancy, Candidate
+from users.models import Employer, Recruiter, Vacancy, Candidate
 
 
 class TestCreateVacancyCandidate(JSONWebTokenTestCase):

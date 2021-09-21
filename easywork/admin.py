@@ -1,5 +1,7 @@
 from django.contrib.auth.admin import UserAdmin
-from work.models import User, Vacancy, Candidate, Recruiter, Employer
+from users.models import User, Recruiter, Employer
+from vacancies.models import Vacancy
+from candidates.models import Candidate
 from django.contrib import admin
 from django.contrib.auth.backends import BaseBackend
 from django.contrib.auth.hashers import check_password

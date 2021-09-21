@@ -1,6 +1,6 @@
 from django.test import TestCase
 from graphene.test import Client
-from work.schema import schema
+from users.schema import schema
 from graphql_jwt.testcases import JSONWebTokenTestCase
 
 
