@@ -1,10 +1,12 @@
 from graphql_jwt.testcases import JSONWebTokenTestCase
 from django.contrib.auth import get_user_model
 from graphql_jwt.shortcuts import get_token
-from users.models import Employer, Recruiter, Vacancy, Candidate
+from users.models import Employer, Recruiter
+from candidates.models import Candidate
+from vacancies.models import Vacancy
 
 
-class TestCreateVacancyCandidate(JSONWebTokenTestCase):
+class TestCreateCandidate(JSONWebTokenTestCase):
     def setUp(self):
         self.user = get_user_model()(
             username="employer1", password="test", last_name="test", first_name="test"
@@ -37,29 +39,6 @@ class TestCreateVacancyCandidate(JSONWebTokenTestCase):
         self.vacancy.delete()
         self.recruiter.delete()
 
-    def test_create_vacancy(self):
-        mutation_create_vacancy = """
-            mutation CreateVacancy {
-                createVacancy(
-                    vacancyName: "test vacancy"
-                    conditions: "test conditions"
-                    duties: "test duties"
-                    requirements: "test requirements"
-                    payLevel: "HD"
-                    recruiterReward: 5000
-                ) {
-                    ok
-                }
-            }
-        """
-        response = self.client.execute(mutation_create_vacancy)
-        self.assertIsNone(response.errors, response.errors)
-        result = response.data.get("createVacancy")
-        self.assertIsNotNone(result, "Doesn't get createVacancy object")
-        self.assertTrue(result.get("ok"), "Vacancy not created")
-        vacancy_db = Vacancy.objects.filter(creator=self.employer)
-        self.assertTrue(vacancy_db.exists(), "Vacancy not registered in db")
-
     def test_create_candidate(self):
         mutation_create_candidate = """
         mutation CreateCandidate {
@@ -79,6 +58,7 @@ class TestCreateVacancyCandidate(JSONWebTokenTestCase):
         result = response.data.get("createCandidate")
         self.assertIsNotNone(result, "Doesn't get createCandidate object")
         self.assertTrue(result.get("ok"), "Candidate not created")
+        self.assertIsNone(result.get("message"), "Get a message")
         candidate_db = Candidate.objects.filter(
             recruiter=self.recruiter, vacancy=self.vacancy
         )

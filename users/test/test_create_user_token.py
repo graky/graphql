@@ -1,10 +1,9 @@
-from django.test import TestCase
 from graphene.test import Client
-from users.schema import schema
+from easywork.schema import schema
 from graphql_jwt.testcases import JSONWebTokenTestCase
 
 
-class TestCreateUser(TestCase):
+class TestCreateUser(JSONWebTokenTestCase):
     def test_create_user(self):
         create_user_mutation = """
             mutation CreateUser {
@@ -21,15 +20,15 @@ class TestCreateUser(TestCase):
                 }
             }
         """
-        client = Client(schema)
-        response = client.execute(create_user_mutation)
-        self.assertIsNone(response.get("errors"), response.get("errors"))
-        result = response.get("data").get("createUser")
+        response = self.client.execute(create_user_mutation)
+        self.assertIsNone(response.errors, response.errors)
+        result = response.data.get("createUser")
         self.assertIsNotNone(result, "Doesn't get createUser field")
         user = result.get("user")
         self.assertIsNotNone(user, "Doesn't get user field")
         self.assertEqual(user.get("username"), "test_username", "Not right username")
         self.assertEqual(user.get("password"), "test_password", "Not right password")
+        client = Client(schema)
         response = client.execute(create_user_mutation)
         self.assertIsNone(response.get("errors"), response.get("errors"))
         result = response.get("data").get("createUser")

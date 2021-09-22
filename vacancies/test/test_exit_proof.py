@@ -1,7 +1,9 @@
 from graphql_jwt.testcases import JSONWebTokenTestCase
 from django.contrib.auth import get_user_model
 from graphql_jwt.shortcuts import get_token
-from users.models import Employer, Recruiter, Vacancy, Candidate
+from users.models import Employer, Recruiter
+from vacancies.models import Vacancy
+from candidates.models import Candidate
 
 
 class TestProofExit(JSONWebTokenTestCase):
@@ -57,6 +59,7 @@ class TestProofExit(JSONWebTokenTestCase):
         result = response.data.get("proofExit")
         self.assertIsNotNone(result, "Doesn't get proofExit object")
         self.assertTrue(result.get("ok"), "Exit not proofed")
+        self.assertIsNone(result.get("message"), "Get a message")
         employer = Employer.objects.get(pk=self.employer.id)
         recruiter = Recruiter.objects.get(pk=self.recruiter.id)
         vacancy = Vacancy.objects.get(pk=self.vacancy.id)
