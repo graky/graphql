@@ -1,6 +1,6 @@
 import graphene
 from candidates.models import Candidate
-from .models import Vacancy
+from .models import Vacancy, Category, City
 
 
 class CreateVacancy(graphene.Mutation):
@@ -11,6 +11,8 @@ class CreateVacancy(graphene.Mutation):
         conditions = graphene.String(required=True)
         pay_level = graphene.String(required=True)
         recruiter_reward = graphene.Int(required=True)
+        city = graphene.ID()
+        category = graphene.ID()
 
     ok = graphene.Boolean()
     message = graphene.String()
@@ -26,6 +28,8 @@ class CreateVacancy(graphene.Mutation):
             conditions = kwargs.get("conditions")
             pay_level = kwargs.get("pay_level")
             recruiter_reward = kwargs.get("recruiter_reward")
+            city_id = kwargs.get("city")
+            category_id = kwargs.get("category")
             Vacancy.objects.create(
                 creator=creator,
                 vacancy_name=vacancy_name,
@@ -34,6 +38,8 @@ class CreateVacancy(graphene.Mutation):
                 conditions=conditions,
                 pay_level=pay_level,
                 recruiter_reward=recruiter_reward,
+                city=City.objects.get(pk=city_id),
+                category=Category.objects.get(pk=category_id)
             )
             return {"ok": True}
         else:

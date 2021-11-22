@@ -8,6 +8,6 @@ class Candidate(models.Model):
     vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)
     recruiter = models.ForeignKey(Recruiter, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    interview = models.CharField(max_length=255)
+    interview = models.TextField()
     contact = models.CharField(max_length=255)
     exit_proof = models.BooleanField(default=False)

@@ -146,3 +146,4 @@ GRAPHQL_JWT = {
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = "/static/"
+ёDEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

@@ -3,6 +3,12 @@ from django.utils import timezone
 from users.models import Employer
 
 
+class City(models.Model):
+    city_name = models.CharField(max_length=255)
+
+class Category(models.Model):
+    category_name = models.CharField(max_length=255)
+
 class Vacancy(models.Model):
     id = models.BigAutoField(unique=True, primary_key=True)
     vacancy_name = models.CharField(max_length=255)
@@ -25,6 +31,11 @@ class Vacancy(models.Model):
         Employer, on_delete=models.CASCADE, verbose_name="Работодатель"
     )
 
+    city = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name="Город", null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категория", null=True)
+
     class Meta:
         verbose_name = "Вакансия"
         verbose_name_plural = "Вакансии"
+
+
